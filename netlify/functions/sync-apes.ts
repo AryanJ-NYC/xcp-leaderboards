@@ -108,4 +108,4 @@ type LooneyPepe = {
   set?: 'dabc';
 };
 
-export const handler = schedule('@hourly', unscheduledHandler);
+export const handler = schedule('0 */8 * * *', unscheduledHandler);

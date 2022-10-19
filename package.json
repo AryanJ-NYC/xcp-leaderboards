@@ -5,6 +5,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
+    "dev": "yarn workspace web-app dev",
     "generate": "yarn workspace data generate",
     "postinstall": "yarn generate",
     "migrate": "yarn workspace data migrate",
@@ -21,6 +22,7 @@
   },
   "workspaces": [
     "data",
-    "netlify/functions"
+    "netlify/functions",
+    "web-app"
   ]
 }

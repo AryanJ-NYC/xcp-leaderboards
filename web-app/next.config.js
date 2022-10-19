@@ -1,0 +1,42 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      { hostname: 'bitcorns.com', protocol: 'https' },
+      { hostname: 'cdn.bitcoincoaster.com', protocol: 'https' },
+      { hostname: 'cdn.sanity.io', protocol: 'https' },
+      { hostname: 'dankdirectory.files.wordpress.com', protocol: 'https' },
+      { hostname: 'fakeraredirectory.com', protocol: 'https' },
+      { hostname: 'fakeraredirectory.files.wordpress.com', protocol: 'https' },
+      { hostname: 'files.cdn.printful.com', protocol: 'https' },
+      { hostname: 'frhost.co.uk', protocol: 'https' },
+      { hostname: 'hosting.photobucket.com', protocol: 'https' },
+      { hostname: '**.ipfs.dweb.link', protocol: 'https' },
+      { hostname: 'ipfs.io', protocol: 'https' },
+      { hostname: 'mandelduck.herokuapp.com', protocol: 'https' },
+      { hostname: 'media.istockphoto.com', protocol: 'https' },
+      { hostname: 'metadata.spellsofgenesis.com', protocol: 'https' },
+      { hostname: 'penisium.org', protocol: 'https' },
+      { hostname: 'pepewtf.s3.amazonaws.com', protocol: 'https' },
+      { hostname: 'phunchkins.com', protocol: 'https' },
+      { hostname: 'public-scarce-city.s3.amazonaws.com', protocol: 'https' },
+      { hostname: 'rarejapanesenfts.com', protocol: 'https' },
+      { hostname: 'rarepepedirectory.com', protocol: 'https' },
+      { hostname: 'rarepepewallet.com', protocol: 'https' },
+      { hostname: 'scannableNFTs.com', protocol: 'https' },
+      { hostname: 'thewojakway.com', protocol: 'https' },
+      { hostname: 'xchain.io', protocol: 'https' },
+      { hostname: 'xcp.dankdirectory.site', protocol: 'https' },
+      { hostname: 'xcp.dankinfo.art', protocol: 'https' },
+      { hostname: 'xcpinata.s3.amazonaws.com', protocol: 'https' },
+      { hostname: 'arweave.net', protocol: 'https' },
+      { hostname: '**.arweave.net', protocol: 'https' },
+      { hostname: 'imgur.com', protocol: 'https' },
+      { hostname: '**.imgur.com', protocol: 'https' },
+    ],
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+};
+
+module.exports = nextConfig;
