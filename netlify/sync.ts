@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import { CounterpartyClient } from 'counterparty-node-client';
 import orderBy from 'lodash/orderBy';
+import prisma from '../data';
 import type { PepeList, ProjectName } from '../packages/projects';
 
 export const sync = async function (
@@ -49,7 +49,6 @@ export const sync = async function (
     ]);
   }
 
-  const prisma = new PrismaClient();
   await prisma.address.createMany({
     data: Object.keys(addyToAssets).map((address) => ({ address })),
     skipDuplicates: true,

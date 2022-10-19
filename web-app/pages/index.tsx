@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
+import prisma from '../../data';
 
 const Homepage: NextPage<Props> = ({ projects }) => {
   return (
@@ -20,7 +20,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   return { props: { projects } };
 };
 
-const prisma = new PrismaClient();
 const getAllProjects = async () => {
   return await prisma.project.findMany();
 };

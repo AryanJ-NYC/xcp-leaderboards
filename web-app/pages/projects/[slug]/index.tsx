@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { FcSearch } from 'react-icons/fc';
+import prisma from '../../../../data';
 import { getProject, ProjectName } from '../../../../packages/projects';
 
 const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
@@ -70,7 +71,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { fallback: true, paths: [] };
 };
 
-const prisma = new PrismaClient();
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   if (typeof params?.slug !== 'string') {
     return { notFound: true };

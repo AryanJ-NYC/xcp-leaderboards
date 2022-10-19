@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import clsx from 'clsx';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { getProject, ProjectName } from '@projects';
 import Link from 'next/link';
+import prisma from '../../../../../data';
 
 const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
   const router = useRouter();
@@ -77,7 +77,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 };
 
 const getAddress = async (address: string, projectSlug: string) => {
-  const prisma = new PrismaClient();
   const _address = await prisma.address.findUnique({
     select: {
       address: true,
