@@ -18,6 +18,7 @@ CREATE TABLE "AddressAssets" (
     "addressId" TEXT NOT NULL,
     "assets" JSONB NOT NULL,
     "projectId" TEXT NOT NULL,
+    "rank" INTEGER NOT NULL,
 
     CONSTRAINT "AddressAssets_pkey" PRIMARY KEY ("addressId","projectId")
 );

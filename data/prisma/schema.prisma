@@ -27,6 +27,7 @@ model AddressAssets {
   assets    Json
   project   Project @relation(fields: [projectId], references: [id])
   projectId String
+  rank      Int
 
   @@id([addressId, projectId])
 }

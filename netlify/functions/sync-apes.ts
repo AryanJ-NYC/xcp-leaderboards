@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Handler, schedule } from '@netlify/functions';
 import { CounterpartyClient } from 'counterparty-node-client';
+import orderBy from 'lodash/orderBy';
 import fetch from 'node-fetch';
 
 const unscheduledHandler: Handler = async function () {
@@ -32,20 +33,54 @@ const unscheduledHandler: Handler = async function () {
 
     offset += 1000;
   }
-  console.log(addyToAssets);
+
+  for (const [address, assets] of Object.entries(addyToAssets)) {
+    addyToAssets[address] = orderBy(assets, [
+      (asset) => {
+        const ape = apes[asset.assetName];
+        return ape.series;
+      },
+      (asset) => {
+        const ape = apes[asset.assetName];
+        return ape.order;
+      },
+    ]);
+  }
 
   const prisma = new PrismaClient();
   await prisma.address.createMany({
     data: Object.keys(addyToAssets).map((address) => ({ address })),
     skipDuplicates: true,
   });
-  await prisma.addressAssets.createMany({
-    data: Object.entries(addyToAssets).map(([address, assets]) => ({
-      addressId: address,
-      assets,
-      projectId: 'ed7e7655-6695-4420-bc30-a60823fa0153',
-    })),
+
+  await prisma.addressAssets.deleteMany({
+    where: { projectId: 'ed7e7655-6695-4420-bc30-a60823fa0153' },
   });
+
+  const sortedAddyToAssets = orderBy(
+    Object.entries(addyToAssets),
+    [
+      ([_, assets]) => {
+        if (assets.length === apeNames.length) return 0;
+        return 1;
+      },
+      ([_, assets]) => assets.length,
+      ([_, assets]) => assets.reduce((acc, asset) => acc + asset.quantity, 0),
+    ],
+    ['asc', 'desc', 'desc']
+  );
+  console.log({ sortedAddyToAssets });
+  await prisma.addressAssets
+    .createMany({
+      data: sortedAddyToAssets.map(([address, assets], i) => ({
+        addressId: address,
+        assets,
+        projectId: 'ed7e7655-6695-4420-bc30-a60823fa0153',
+        rank: i,
+      })),
+      skipDuplicates: true,
+    })
+    .catch((e) => console.error(e));
 
   return { statusCode: 200 };
 };
