@@ -1,0 +1,26 @@
+{
+  "name": "xcp-leaderboards",
+  "repository": "https://github.com/AryanJ-NYC/xcp-leaderboards",
+  "author": "Aryan Jabbari <AryanJabbari@gmail.com>",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "generate": "yarn workspace data generate",
+    "postinstall": "yarn generate",
+    "migrate": "yarn workspace data migrate",
+    "start": "yarn workspace infra start"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "3.3.0",
+    "prettier": "^2.7.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "workspaces": [
+    "data",
+    "netlify/functions"
+  ]
+}
