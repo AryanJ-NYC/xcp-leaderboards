@@ -2,18 +2,26 @@ import { PrismaClient } from '@prisma/client';
 import type { GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { FcSearch } from 'react-icons/fc';
 
 const Home: NextPage<Props> = ({ addresses, totalAssetCount }) => {
   const [searchedAddy, setChangeAddy] = useState('');
 
   return (
     <div className="flex flex-col gap-y-4">
-      <h1 className="text-4xl">Droooling Apes Leaderboard</h1>
-      <input
-        className="border rounded p-2 w-96"
-        onChange={(e) => setChangeAddy(e.target.value.trim())}
-        type="text"
-      />
+      <div>
+        <h1 className="text-4xl">Droooling Apes Leaderboard</h1>
+        <p>Click address for more detailed address info.</p>
+      </div>
+
+      <label className="border relative rounded w-96">
+        <input
+          className="h-full w-full p-2"
+          onChange={(e) => setChangeAddy(e.target.value.trim())}
+          type="text"
+        />
+        <FcSearch className="absolute right-4 top-0 bottom-0 my-auto" />
+      </label>
       <div className="flex flex-col gap-y-12">
         {addresses
           .filter(({ addressId }) => {
@@ -25,9 +33,10 @@ const Home: NextPage<Props> = ({ addresses, totalAssetCount }) => {
           .map(({ addressId, assets }, i) => (
             <Link href={`/address/${addressId}`} key={addressId}>
               <a>
-                <p>
-                  #{i} {addressId}
+                <p className="text-2xl">
+                  #{i} <Medal place={i} />
                 </p>
+                <p>{addressId}</p>
                 <p>
                   {assets.length} / {totalAssetCount} collected
                 </p>
@@ -41,6 +50,14 @@ const Home: NextPage<Props> = ({ addresses, totalAssetCount }) => {
       </div>
     </div>
   );
+};
+
+const Medal: React.FC<{ place: number }> = ({ place }) => {
+  if (place > 2) return null;
+  if (place === 0) return <>🥇</>;
+  if (place === 1) return <>🥈</>;
+  if (place === 2) return <>🥉</>;
+  return null;
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
