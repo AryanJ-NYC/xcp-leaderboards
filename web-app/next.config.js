@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { externalDir: true },
   images: {
     remotePatterns: [
       { hostname: 'bitcorns.com', protocol: 'https' },

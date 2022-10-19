@@ -1,9 +1,9 @@
 import { Handler, schedule } from '@netlify/functions';
-import { getDabcList } from '../../packages/projects';
+import { getPhunchkins } from '../../packages/projects';
 import { sync } from '../sync';
 
 const unscheduledHandler: Handler = async function () {
-  await sync(getDabcList, 'drooling-apes');
+  await sync(getPhunchkins, 'phunchkins');
   return { statusCode: 200 };
 };
 

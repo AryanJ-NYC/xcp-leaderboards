@@ -6,8 +6,7 @@
   "dependencies": {
     "@netlify/functions": "^1.3.0",
     "counterparty-node-client": "^0.8.0",
-    "lodash": "^4.17.21",
-    "node-fetch": "^3.2.10"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.186"
