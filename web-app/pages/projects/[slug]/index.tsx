@@ -86,6 +86,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   return {
     props: { addresses, projectName: project.name, totalAssetCount: Object.keys(pepes).length },
+    revalidate: 60 * 30,
   };
 };
 

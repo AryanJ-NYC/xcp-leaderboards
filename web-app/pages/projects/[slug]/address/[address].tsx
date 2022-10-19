@@ -73,7 +73,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     return { notFound: true };
   }
 
-  return { props: { address, assetToImgUrl: pepes } };
+  return { props: { address, assetToImgUrl: pepes }, revalidate: 60 * 30 };
 };
 
 const getAddress = async (address: string, projectSlug: string) => {
