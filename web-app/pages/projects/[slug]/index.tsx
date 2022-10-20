@@ -21,7 +21,7 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
         <p>Click address for more detailed address info.</p>
       </div>
 
-      <label className="border relative rounded w-96">
+      <label className="border relative rounded w-full lg:w-96">
         <input
           className="h-full w-full p-2"
           onChange={(e) => setChangeAddy(e.target.value.trim())}
@@ -41,22 +41,22 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
             <Link href={`${router.asPath}/address/${addressId}`} key={addressId}>
               <a
                 className={clsx(
-                  'flex px-2 py-4 rounded-lg',
+                  'flex py-4 rounded-lg',
                   rank === 0 && 'shadow-yellow-400 shadow-2xl',
                   rank === 1 && 'shadow-slate-500 shadow-2xl',
                   rank === 2 && 'shadow-orange-700 shadow-2xl',
                   rank > 2 && 'shadow-lg'
                 )}
               >
-                <div className="border-r flex items-center px-8">
+                <div className="border-r flex items-center px-4 sm:px-8">
                   {rank < 3 ? <Medal place={rank} /> : <p className="text-2xl">#{rank + 1}</p>}
                 </div>
-                <div className="pl-8">
-                  <p className="font-medium tracking-wider">{addressId}</p>
-                  <p className="text-sm text-gray-500">
+                <div className="px-4 sm:px-8 overflow-x-hidden">
+                  <p className="truncate font-medium tracking-wider">{addressId}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">
                     {assets.length} / {totalAssetCount} unique assets collected
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs sm:text-sm text-gray-500">
                     {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()} total
                     assets collected
                   </p>
