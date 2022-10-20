@@ -1,5 +1,38 @@
 import fetch from 'node-fetch';
 
+export const getBitcornList = async (): Promise<PepeList> => {
+  try {
+    const pepesResponse = await fetch('https://bitcorns.com/api/cards');
+    const pepeJson = (await pepesResponse.json()) as Bitcorn[];
+    const pepeList = pepeJson.reduce(
+      (acc, bitcorn): PepeList => ({
+        ...acc,
+        [bitcorn.name]: {
+          img_url: !bitcorn?.card.startsWith('http') ? `https:${bitcorn?.card}` : bitcorn.card,
+          order: bitcorn.harvest_ranking,
+          series: bitcorn.harvest,
+          burned: bitcorn.burned,
+          set: 'bitcorns',
+        },
+      }),
+      {}
+    );
+    return pepeList;
+  } catch (e) {
+    console.error(e);
+    return {};
+  }
+};
+type Bitcorn = {
+  name: string;
+  card: string;
+  issued: number;
+  burned: number;
+  supply: number;
+  harvest: number;
+  harvest_ranking: number;
+};
+
 export const getDabcList = async (): Promise<PepeList> => {
   try {
     const pepesResponse = await fetch('https://droolingapebus.club/api/verbose-feed');
@@ -25,6 +58,8 @@ export const getPhunchkins = async (): Promise<PepeList> => {
 
 export const getProject = async (projectName: ProjectName): Promise<PepeList> => {
   switch (projectName) {
+    case 'bitcorn':
+      return getBitcornList();
     case 'drooling-apes':
       return getDabcList();
     case 'phunchkins':
@@ -76,7 +111,7 @@ type Wojak = {
 };
 
 export type PepeList = Record<string, LooneyPepe>;
-export type ProjectName = 'drooling-apes' | 'phunchkins' | 'retro-xcp' | 'wojaks';
+export type ProjectName = 'bitcorn' | 'drooling-apes' | 'phunchkins' | 'retro-xcp' | 'wojaks';
 type LooneyPepe = {
   burned?: number;
   img_url: string;

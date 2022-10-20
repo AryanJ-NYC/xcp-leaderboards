@@ -24,7 +24,7 @@ const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
       <p>
         {assets.length} / {totalAssetCount} Collected
       </p>
-      <div className="gap-y-2 gap-x-2 grid grid-cols-12 w-fit">
+      <div className="gap-y-2 gap-x-2 grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-fit">
         {Object.entries(assetToImgUrl).map(([assetName, { img_url }]) => {
           const isMissing = !assets.some((a) => a.assetName === assetName);
           return (
@@ -36,16 +36,16 @@ const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
               target="_blank"
             >
               {img_url.includes('mp4') ? (
-                <video height={pictureSize} key={assetName} src={img_url} width={pictureSize} />
+                <video height="100%" key={assetName} src={img_url} width="100%" />
               ) : (
                 <Image
                   alt="Asset"
                   className="object-contain"
-                  height={pictureSize}
+                  height="100%"
                   key={assetName}
                   quality={25}
                   src={img_url}
-                  width={pictureSize}
+                  width="100%"
                 />
               )}
             </a>
@@ -56,7 +56,6 @@ const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
   );
 };
 
-const pictureSize = 64;
 export const getStaticPaths: GetStaticPaths = async () => {
   return { fallback: true, paths: [] };
 };

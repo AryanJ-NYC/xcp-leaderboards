@@ -44,11 +44,11 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
                 </p>
                 <p>{addressId}</p>
                 <p>
-                  {assets.length} / {totalAssetCount} collected
+                  {assets.length} / {totalAssetCount} unique assets collected
                 </p>
                 <p>
                   {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()} total
-                  assets collected.
+                  assets collected
                 </p>
               </a>
             </Link>

@@ -17,6 +17,8 @@ export const sync = async function (
   while (true) {
     const balances = await cpClient.getBalances({
       filters: [
+        // consider burn addresses
+        { field: 'address', op: 'NOT IN', value: ['1BitcornCropsMuseumAddressy149ZDr'] },
         { field: 'asset', op: 'IN', value: assetNames },
         { field: 'quantity', op: '>', value: 0 },
       ],
