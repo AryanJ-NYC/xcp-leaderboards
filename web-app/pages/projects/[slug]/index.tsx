@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -37,11 +36,11 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
             }
             return true;
           })
-          .map(({ addressId, assets }, i) => (
+          .map(({ addressId, assets, rank }) => (
             <Link href={`${router.asPath}/address/${addressId}`} key={addressId}>
               <a>
                 <p className="text-2xl">
-                  #{i + 1} <Medal place={i} />
+                  #{rank + 1} <Medal place={rank} />
                 </p>
                 <p>{addressId}</p>
                 <p>
@@ -93,12 +92,13 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 const getAddresses = async (projectSlug: string) => {
   const addresses = await prisma.addressProjectDetails.findMany({
     orderBy: { rank: 'asc' },
-    select: { addressId: true, assets: true },
+    select: { addressId: true, assets: true, rank: true },
     where: { projectSlug },
   });
   return addresses as {
     addressId: string;
     assets: { assetName: string; quantity: number }[];
+    rank: number;
   }[];
 };
 
