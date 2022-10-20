@@ -45,7 +45,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     {} as Record<string, string | null>
   );
 
-  return { props: { projects, setToImgurl } };
+  return { props: { projects, setToImgurl }, revalidate: 60 * 60 };
 };
 
 const getAllProjects = async () => {
