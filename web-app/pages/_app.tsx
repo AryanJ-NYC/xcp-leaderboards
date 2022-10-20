@@ -9,6 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Link href="/">Home</Link>
       </header>
       <Component {...pageProps} />
+      <footer className="py-12"></footer>
     </div>
   );
 }

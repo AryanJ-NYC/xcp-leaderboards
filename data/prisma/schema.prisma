@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Project {
-  slug    String                  @id
-  name    String
   details AddressProjectDetails[]
+  name    String
+  slug    String                  @id
 }
 
 model Address {

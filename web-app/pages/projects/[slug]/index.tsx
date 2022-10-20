@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -28,7 +29,7 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
         />
         <FcSearch className="absolute right-4 top-0 bottom-0 my-auto" />
       </label>
-      <div className="flex flex-col gap-y-12">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
         {addresses
           .filter(({ addressId }) => {
             if (searchedAddy) {
@@ -38,18 +39,28 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
           })
           .map(({ addressId, assets, rank }) => (
             <Link href={`${router.asPath}/address/${addressId}`} key={addressId}>
-              <a>
-                <p className="text-2xl">
-                  #{rank + 1} <Medal place={rank} />
-                </p>
-                <p>{addressId}</p>
-                <p>
-                  {assets.length} / {totalAssetCount} unique assets collected
-                </p>
-                <p>
-                  {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()} total
-                  assets collected
-                </p>
+              <a
+                className={clsx(
+                  'flex px-2 py-4 rounded-lg',
+                  rank === 0 && 'shadow-yellow-400 shadow-2xl',
+                  rank === 1 && 'shadow-slate-500 shadow-2xl',
+                  rank === 2 && 'shadow-orange-700 shadow-2xl',
+                  rank > 2 && 'shadow-lg'
+                )}
+              >
+                <div className="border-r flex items-center px-8">
+                  {rank < 3 ? <Medal place={rank} /> : <p className="text-2xl">#{rank + 1}</p>}
+                </div>
+                <div className="pl-8">
+                  <p className="font-medium tracking-wider">{addressId}</p>
+                  <p className="text-sm text-gray-500">
+                    {assets.length} / {totalAssetCount} unique assets collected
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()} total
+                    assets collected
+                  </p>
+                </div>
               </a>
             </Link>
           ))}
@@ -60,9 +71,9 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
 
 const Medal: React.FC<{ place: number }> = ({ place }) => {
   if (place > 2) return null;
-  if (place === 0) return <>🥇</>;
-  if (place === 1) return <>🥈</>;
-  if (place === 2) return <>🥉</>;
+  if (place === 0) return <p className="text-3xl">🥇</p>;
+  if (place === 1) return <p className="text-3xl">🥈</p>;
+  if (place === 2) return <p className="text-3xl">🥉</p>;
   return null;
 };
 
