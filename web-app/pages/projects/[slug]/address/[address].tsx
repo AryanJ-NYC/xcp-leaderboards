@@ -38,12 +38,11 @@ const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
               {img_url.includes('mp4') ? (
                 <video height="100%" key={assetName} src={img_url} width="100%" />
               ) : (
-                <Image
+                <img
                   alt="Asset"
                   className="object-contain"
                   height="100%"
                   key={assetName}
-                  quality={25}
                   src={img_url}
                   width="100%"
                 />
