@@ -14,13 +14,17 @@ const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
         return (
           <Link href={`/projects/${p.slug}`} key={p.slug}>
             <a className="flex flex-col gap-y-8 relative rounded-b-lg shadow-2xl">
-              {imgUrl && (
+              {imgUrl && imgUrl.includes('mp4') ? (
+                <video autoPlay height="100%" key={p.name} src={imgUrl} width="100%" />
+              ) : (
                 <Image
-                  alt={`${p.name} cover image`}
+                  alt="Asset"
                   className="object-cover rounded-t-lg"
                   height={256}
+                  key={p.name}
+                  quality={25}
+                  src={imgUrl!}
                   width="100%"
-                  src={imgUrl}
                 />
               )}
               <p className="p-2 text-xl">{p.name}</p>
