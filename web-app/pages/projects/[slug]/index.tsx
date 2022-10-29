@@ -3,11 +3,14 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { BsTelegram, BsTwitter } from 'react-icons/bs';
 import { FcSearch } from 'react-icons/fc';
+import { TfiWorld } from 'react-icons/tfi';
+import { VscJson } from 'react-icons/vsc';
 import prisma from '../../../../data';
-import { getProject, ProjectName } from '../../../../packages/projects';
+import { getProjectAssets, ProjectName } from '../../../../packages/projects';
 
-const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
+const Home: NextPage<Props> = ({ addresses, project, totalAssetCount }) => {
   const router = useRouter();
   const [searchedAddy, setChangeAddy] = useState('');
   if (router.isFallback) {
@@ -15,55 +18,95 @@ const Home: NextPage<Props> = ({ addresses, projectName, totalAssetCount }) => {
   }
 
   return (
-    <div className="flex flex-col gap-y-4">
-      <div>
-        <h1 className="text-4xl">{projectName} Leaderboard</h1>
-        <p>Click address for more detailed address info.</p>
+    <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col gap-y-2">
+        <h1 className="text-4xl">{project.name}</h1>
+        <div className="flex gap-x-4 text-xl">
+          <a
+            className="text-blue-500 hover:text-blue-600"
+            href={project.telegramUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <BsTelegram />
+          </a>
+          <a
+            className="text-blue-500 hover:text-blue-600"
+            href={project.websiteUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <TfiWorld />
+          </a>
+          {project.twitterUrl ? (
+            <a
+              className="text-blue-500 hover:text-blue-600"
+              href={project.twitterUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <BsTwitter />
+            </a>
+          ) : null}
+          <a
+            className="text-blue-500 hover:text-blue-600"
+            href={project.feedUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <VscJson />
+          </a>
+        </div>
       </div>
 
-      <label className="border relative rounded w-full lg:w-96">
-        <input
-          className="h-full w-full p-2"
-          onChange={(e) => setChangeAddy(e.target.value.trim())}
-          type="text"
-        />
-        <FcSearch className="absolute right-4 top-0 bottom-0 my-auto" />
-      </label>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
-        {addresses
-          .filter(({ addressId }) => {
-            if (searchedAddy) {
-              return addressId.toLowerCase().includes(searchedAddy.toLowerCase());
-            }
-            return true;
-          })
-          .map(({ addressId, assets, rank }) => (
-            <Link href={`${router.asPath}/address/${addressId}`} key={addressId}>
-              <a
-                className={clsx(
-                  'flex py-4 rounded-lg',
-                  rank === 0 && 'shadow-yellow-400 shadow-2xl',
-                  rank === 1 && 'shadow-slate-500 shadow-2xl',
-                  rank === 2 && 'shadow-orange-700 shadow-2xl',
-                  rank > 2 && 'shadow-lg'
-                )}
-              >
-                <div className="border-r flex items-center px-4 sm:px-8">
-                  {rank < 3 ? <Medal place={rank} /> : <p className="text-2xl">#{rank + 1}</p>}
-                </div>
-                <div className="px-4 sm:px-8 overflow-x-hidden">
-                  <p className="truncate font-medium tracking-wider">{addressId}</p>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {assets.length} / {totalAssetCount} unique assets collected
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()} total
-                    assets collected
-                  </p>
-                </div>
-              </a>
-            </Link>
-          ))}
+      <div className="flex flex-col gap-y-4">
+        <p>Click address for more detailed address info.</p>
+        <div className="border relative rounded w-full lg:w-96">
+          <label>
+            <input
+              className="h-full w-full p-2"
+              onChange={(e) => setChangeAddy(e.target.value.trim())}
+              type="text"
+            />
+            <FcSearch className="absolute right-4 top-0 bottom-0 my-auto" />
+          </label>
+        </div>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
+          {addresses
+            .filter(({ addressId }) => {
+              if (searchedAddy) {
+                return addressId.toLowerCase().includes(searchedAddy.toLowerCase());
+              }
+              return true;
+            })
+            .map(({ addressId, assets, rank }) => (
+              <Link href={`${router.asPath}/address/${addressId}`} key={addressId}>
+                <a
+                  className={clsx(
+                    'flex py-4 rounded-lg',
+                    rank === 0 && 'shadow-yellow-400 shadow-2xl',
+                    rank === 1 && 'shadow-slate-500 shadow-2xl',
+                    rank === 2 && 'shadow-orange-700 shadow-2xl',
+                    rank > 2 && 'shadow-lg'
+                  )}
+                >
+                  <div className="border-r flex items-center px-4 sm:px-8">
+                    {rank < 3 ? <Medal place={rank} /> : <p className="text-2xl">#{rank + 1}</p>}
+                  </div>
+                  <div className="px-4 sm:px-8 overflow-x-hidden">
+                    <p className="truncate font-medium tracking-wider">{addressId}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {assets.length} / {totalAssetCount} unique assets collected
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()}{' '}
+                      total assets collected
+                    </p>
+                  </div>
+                </a>
+              </Link>
+            ))}
+        </div>
       </div>
     </div>
   );
@@ -87,15 +130,15 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   }
   const [addresses, pepes, project] = await Promise.all([
     getAddresses(params.slug),
-    getProject(params.slug as ProjectName),
-    prisma.project.findUnique({ select: { name: true }, where: { slug: params.slug } }),
+    getProjectAssets(params.slug as ProjectName),
+    getProject(params.slug),
   ]);
   if (!project) {
     return { notFound: true };
   }
 
   return {
-    props: { addresses, projectName: project.name, totalAssetCount: Object.keys(pepes).length },
+    props: { addresses, project, totalAssetCount: Object.keys(pepes).length },
     revalidate: 60 * 30,
   };
 };
@@ -113,9 +156,16 @@ const getAddresses = async (projectSlug: string) => {
   }[];
 };
 
+const getProject = async (projectSlug: string) => {
+  return prisma.project.findUnique({
+    select: { feedUrl: true, name: true, telegramUrl: true, twitterUrl: true, websiteUrl: true },
+    where: { slug: projectSlug },
+  });
+};
+
 type Props = {
   addresses: Awaited<ReturnType<typeof getAddresses>>;
-  projectName: string;
+  project: NonNullable<Awaited<ReturnType<typeof getProject>>>;
   totalAssetCount: number;
 };
 

@@ -1,7 +1,11 @@
 -- CreateTable
 CREATE TABLE "Project" (
-    "slug" TEXT NOT NULL,
+    "feedUrl" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "telegramUrl" TEXT NOT NULL,
+    "twitterUrl" TEXT,
+    "websiteUrl" TEXT NOT NULL,
 
     CONSTRAINT "Project_pkey" PRIMARY KEY ("slug")
 );

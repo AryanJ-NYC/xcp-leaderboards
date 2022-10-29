@@ -11,9 +11,13 @@ datasource db {
 }
 
 model Project {
-  details AddressProjectDetails[]
-  name    String
-  slug    String                  @id
+  details     AddressProjectDetails[]
+  feedUrl     String
+  name        String
+  slug        String                  @id
+  telegramUrl String
+  twitterUrl  String?
+  websiteUrl  String
 }
 
 model Address {

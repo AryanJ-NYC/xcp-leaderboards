@@ -56,7 +56,7 @@ export const getPhunchkins = async (): Promise<PepeList> => {
   }
 };
 
-export const getProject = async (projectName: ProjectName): Promise<PepeList> => {
+export const getProjectAssets = async (projectName: ProjectName): Promise<PepeList> => {
   switch (projectName) {
     case 'bitcorn':
       return getBitcornList();

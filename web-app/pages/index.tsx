@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import prisma from '../../data';
-import { getProject, ProjectName } from '../../packages/projects';
+import { getProjectAssets, ProjectName } from '../../packages/projects';
 
 const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
   return (
@@ -39,7 +39,7 @@ const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const projects = await getAllProjects();
   const projectGetters = projects.map(async (p) => ({
-    project: await getProject(p.slug as ProjectName),
+    project: await getProjectAssets(p.slug as ProjectName),
     set: p.slug,
   }));
 
