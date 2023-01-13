@@ -66,6 +66,8 @@ export const getProjectAssets = async (projectName: ProjectName): Promise<PepeLi
       return getPhunchkins();
     case 'retro-xcp':
       return getRetroXcp();
+    case 'scannable-nfts':
+      return getScannableNfts();
     case 'wojaks':
       return getWojaks();
     case 'xcp-pinata':
@@ -81,6 +83,33 @@ export const getRetroXcp = async (): Promise<PepeList> => {
   } catch {
     return {};
   }
+};
+
+export const getScannableNfts = async () => {
+  try {
+    const pepesResponse = await fetch('https://scannablenfts.com/api/scannables');
+    const pepeJson = (await pepesResponse.json()) as ScannableNft[];
+    return pepeJson.reduce(
+      (acc, pepe) => ({
+        ...acc,
+        [pepe.asset]: { img_url: pepe.image, set: 'scannable-nfts' },
+      }),
+      {}
+    );
+  } catch {
+    return {};
+  }
+};
+type ScannableNft = {
+  asset: string;
+  name: string;
+  image: string;
+  pubdate: string;
+  artist: string;
+  collection: string;
+  tags: string;
+  image_large: string;
+  thumbnail: string;
 };
 
 export const getWojaks = async (): Promise<PepeList> => {
@@ -130,6 +159,7 @@ export type ProjectName =
   | 'drooling-apes'
   | 'phunchkins'
   | 'retro-xcp'
+  | 'scannable-nfts'
   | 'wojaks'
   | 'xcp-pinata';
 type LooneyPepe = {
