@@ -68,6 +68,8 @@ export const getProjectAssets = async (projectName: ProjectName): Promise<PepeLi
       return getRetroXcp();
     case 'wojaks':
       return getWojaks();
+    case 'xcp-pinata':
+      return getXcpPinata();
   }
 };
 
@@ -101,7 +103,6 @@ export const getWojaks = async (): Promise<PepeList> => {
     return {};
   }
 };
-
 type Wojak = {
   asset_name: string;
   series: string;
@@ -110,8 +111,27 @@ type Wojak = {
   url: string;
 };
 
+export const getXcpPinata = async () => {
+  try {
+    const pepesResponse = await fetch('https://xcpinata.s3.amazonaws.com/XCPinata_images.json');
+    const pepeJson = (await pepesResponse.json()) as Record<string, string>;
+    return Object.entries(pepeJson).reduce(
+      (acc, [name, img_url]) => ({ ...acc, [name]: { img_url, set: 'xcp-pinata' } }),
+      {}
+    );
+  } catch {
+    return {};
+  }
+};
+
 export type PepeList = Record<string, LooneyPepe>;
-export type ProjectName = 'bitcorn' | 'drooling-apes' | 'phunchkins' | 'retro-xcp' | 'wojaks';
+export type ProjectName =
+  | 'bitcorn'
+  | 'drooling-apes'
+  | 'phunchkins'
+  | 'retro-xcp'
+  | 'wojaks'
+  | 'xcp-pinata';
 type LooneyPepe = {
   burned?: number;
   img_url: string;
