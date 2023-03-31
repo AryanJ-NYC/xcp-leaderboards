@@ -68,6 +68,8 @@ export const getProjectAssets = async (projectName: ProjectName): Promise<PepeLi
       return getRetroXcp();
     case 'scannable-nfts':
       return getScannableNfts();
+    case 'stamps':
+      return getStamps();
     case 'wojaks':
       return getWojaks();
     case 'xcp-pinata':
@@ -110,6 +112,23 @@ type ScannableNft = {
   tags: string;
   image_large: string;
   thumbnail: string;
+};
+
+export const getStamps = async (): Promise<PepeList> => {
+  try {
+    const pepesResponse = await fetch('https://stampchain.io/stamp.json');
+    const pepeJson = (await pepesResponse.json()) as StampNft[];
+    return pepeJson.reduce(
+      (acc, pepe) => ({ ...acc, [pepe.asset]: { img_url: pepe.stamp_url, set: 'stamps' } }),
+      {}
+    );
+  } catch {
+    return {};
+  }
+};
+type StampNft = {
+  asset: string;
+  stamp_url: string;
 };
 
 export const getWojaks = async (): Promise<PepeList> => {
@@ -160,6 +179,7 @@ export type ProjectName =
   | 'phunchkins'
   | 'retro-xcp'
   | 'scannable-nfts'
+  | 'stamps'
   | 'wojaks'
   | 'xcp-pinata';
 type LooneyPepe = {
