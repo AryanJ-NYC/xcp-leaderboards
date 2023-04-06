@@ -38,10 +38,12 @@ const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const projects = await getAllProjects();
-  const projectGetters = projects.map(async (p) => ({
-    project: await getProjectAssets(p.slug as ProjectName),
-    set: p.slug,
-  }));
+  const projectGetters = projects
+    .filter((p) => p.slug !== 'stamps')
+    .map(async (p) => ({
+      project: await getProjectAssets(p.slug as ProjectName),
+      set: p.slug,
+    }));
 
   const projectJsons = await Promise.all(projectGetters);
   const setToImgurl: Record<string, string | null> = projectJsons.reduce(
@@ -49,7 +51,17 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     {} as Record<string, string | null>
   );
 
-  return { props: { projects, setToImgurl }, revalidate: 60 * 60 };
+  return {
+    props: {
+      projects,
+      setToImgurl: {
+        ...setToImgurl,
+        stamps:
+          'https://stampchain.io/stamps/17686488353b65b128d19031240478ba50f1387d0ea7e5f188ea7fda78ea06f4.png',
+      },
+    },
+    revalidate: 60 * 60,
+  };
 };
 
 const getAllProjects = async () => {
