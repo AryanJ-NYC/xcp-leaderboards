@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 const getAllProjects = async () => {
-  return await prisma.project.findMany();
+  return await prisma.project.findMany({ select: { name: true, slug: true } });
 };
 
 type Props = {

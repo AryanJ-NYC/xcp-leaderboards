@@ -25,6 +25,7 @@ const nextConfig = {
       { hostname: 'rarepepedirectory.com', protocol: 'https' },
       { hostname: 'rarepepewallet.com', protocol: 'https' },
       { hostname: 'scannableNFTs.com', protocol: 'https' },
+      { hostname: 'scannablenfts.com', protocol: 'https' },
       { hostname: 'stampchain.io', protocol: 'https' },
       { hostname: 'thewojakway.com', protocol: 'https' },
       { hostname: 'xchain.io', protocol: 'https' },
