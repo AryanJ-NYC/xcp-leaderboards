@@ -8,9 +8,8 @@ import { FcSearch } from 'react-icons/fc';
 import { TfiWorld } from 'react-icons/tfi';
 import { VscJson } from 'react-icons/vsc';
 import prisma from '../../../../data';
-import { getProjectAssets, ProjectName } from '../../../../packages/projects';
 
-const Home: NextPage<Props> = ({ addresses, project, totalAssetCount }) => {
+const Home: NextPage<Props> = ({ addresses, project }) => {
   const router = useRouter();
   const [searchedAddy, setChangeAddy] = useState('');
   if (router.isFallback) {
@@ -96,7 +95,7 @@ const Home: NextPage<Props> = ({ addresses, project, totalAssetCount }) => {
                   <div className="px-4 sm:px-8 overflow-x-hidden">
                     <p className="truncate font-medium tracking-wider">{addressId}</p>
                     <p className="text-xs sm:text-sm text-gray-500">
-                      {assets.length} / {totalAssetCount} unique assets collected
+                      {assets.length} / {project.assetCount} unique assets collected
                     </p>
                     <p className="text-xs sm:text-sm text-gray-500">
                       {assets.reduce((acc, asset) => asset.quantity + acc, 0).toLocaleString()}{' '}
@@ -128,9 +127,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   if (typeof params?.slug !== 'string') {
     return { notFound: true };
   }
-  const [addresses, pepes, project] = await Promise.all([
+  const [addresses, project] = await Promise.all([
     getAddresses(params.slug),
-    getProjectAssets(params.slug as ProjectName),
     getProject(params.slug),
   ]);
   if (!project) {
@@ -143,7 +141,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   );
 
   return {
-    props: { addresses, project, totalAssetCount: Object.keys(pepes).length },
+    props: { addresses, project },
     revalidate: 60 * 60, // 1 hour
   };
 };
@@ -163,7 +161,14 @@ const getAddresses = async (projectSlug: string) => {
 
 const getProject = async (projectSlug: string) => {
   return prisma.project.findUnique({
-    select: { feedUrl: true, name: true, telegramUrl: true, twitterUrl: true, websiteUrl: true },
+    select: {
+      assetCount: true,
+      feedUrl: true,
+      name: true,
+      telegramUrl: true,
+      twitterUrl: true,
+      websiteUrl: true,
+    },
     where: { slug: projectSlug },
   });
 };
@@ -171,7 +176,6 @@ const getProject = async (projectSlug: string) => {
 type Props = {
   addresses: Awaited<ReturnType<typeof getAddresses>>;
   project: NonNullable<Awaited<ReturnType<typeof getProject>>>;
-  totalAssetCount: number;
 };
 
 export default Home;

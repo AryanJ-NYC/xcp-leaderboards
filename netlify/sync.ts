@@ -77,15 +77,21 @@ export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: Pr
     ['asc', 'desc', 'desc']
   );
 
-  await prisma.addressProjectDetails
-    .createMany({
-      data: sortedAddyToAssets.map(([address, assets], i) => ({
-        addressId: address,
-        assets,
-        projectSlug,
-        rank: i,
-      })),
-      skipDuplicates: true,
-    })
-    .catch((e) => console.error(e));
+  await Promise.all([
+    prisma.project.update({
+      data: { assetCount: assetNames.length },
+      where: { slug: projectSlug },
+    }),
+    prisma.addressProjectDetails
+      .createMany({
+        data: sortedAddyToAssets.map(([address, assets], i) => ({
+          addressId: address,
+          assets,
+          projectSlug,
+          rank: i,
+        })),
+        skipDuplicates: true,
+      })
+      .catch((e) => console.error(e)),
+  ]);
 };

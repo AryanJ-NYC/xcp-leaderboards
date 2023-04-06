@@ -11,6 +11,7 @@ datasource db {
 }
 
 model Project {
+  assetCount  Int
   details     AddressProjectDetails[]
   feedUrl     String
   name        String
