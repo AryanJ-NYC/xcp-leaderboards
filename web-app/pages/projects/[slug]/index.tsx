@@ -137,9 +137,14 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     return { notFound: true };
   }
 
+  await fetch(
+    `https://xcp-leaderboards.netlify.app/.netlify/functions/sync-${params.slug}-background`,
+    { method: 'POST' }
+  );
+
   return {
     props: { addresses, project, totalAssetCount: Object.keys(pepes).length },
-    revalidate: 60 * 30,
+    revalidate: 60 * 60, // 1 hour
   };
 };
 
