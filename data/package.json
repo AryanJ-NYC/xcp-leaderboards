@@ -4,7 +4,7 @@
   "author": "Aryan Jabbari <AryanJabbari@gmail.com>",
   "private": true,
   "scripts": {
-    "generate": "prisma generate",
+    "generate": "prisma generate --no-engine",
     "migrate": "prisma migrate dev",
     "migrate:save": "prisma migrate dev --create-only",
     "migrate:up": "prisma migrate deploy"

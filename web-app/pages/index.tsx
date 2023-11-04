@@ -12,23 +12,26 @@ const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
       {projects.map((p) => {
         const imgUrl = setToImgurl[p.slug];
         return (
-          <Link href={`/projects/${p.slug}`} key={p.slug}>
-            <a className="flex flex-col gap-y-8 relative rounded-b-lg shadow-2xl">
-              {imgUrl && imgUrl.includes('mp4') ? (
-                <video autoPlay height="100%" key={p.name} src={imgUrl} width="100%" />
-              ) : (
+          <Link
+            className="flex flex-col gap-y-8 rounded-b-lg shadow-2xl"
+            href={`/projects/${p.slug}`}
+            key={p.slug}
+          >
+            {imgUrl && imgUrl.includes('mp4') ? (
+              <video autoPlay height="100%" key={p.name} src={imgUrl} width="100%" />
+            ) : (
+              <div className="h-64 relative">
                 <Image
                   alt="Asset"
                   className="object-cover rounded-t-lg"
-                  height={256}
+                  fill
                   key={p.name}
                   quality={25}
                   src={imgUrl!}
-                  width="100%"
                 />
-              )}
-              <p className="p-2 text-xl">{p.name}</p>
-            </a>
+              </div>
+            )}
+            <p className="p-2 text-xl">{p.name}</p>
           </Link>
         );
       })}
