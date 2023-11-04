@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  relationMode = "prisma"
+  url          = env("DATABASE_URL")
 }
 
 model Project {
@@ -19,20 +20,28 @@ model Project {
   telegramUrl String
   twitterUrl  String?
   websiteUrl  String
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @default(now()) @updatedAt
 }
 
 model Address {
-  address String                  @id
-  details AddressProjectDetails[]
+  address   String                  @id
+  details   AddressProjectDetails[]
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @default(now()) @updatedAt
 }
 
 model AddressProjectDetails {
-  address     Address @relation(fields: [addressId], references: [address])
+  address     Address  @relation(fields: [addressId], references: [address])
   addressId   String
   assets      Json
-  project     Project @relation(fields: [projectSlug], references: [slug])
+  project     Project  @relation(fields: [projectSlug], references: [slug])
   projectSlug String
   rank        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   @@id([addressId, projectSlug])
+  @@index([addressId])
+  @@index([projectSlug])
 }

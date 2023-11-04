@@ -5,18 +5,20 @@ import prisma from '../data';
 import type { PepeList, ProjectName } from '../packages/projects';
 
 export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: ProjectName) => {
+  console.log('getting assetNames');
   const xcpAssets = await assetGetter();
   const assetNames = Object.keys(xcpAssets);
-
-  const cpClient = new CounterpartyClient('http://api.counterparty.io:4000/api/', 'rpc', 'rpc');
+  console.log(`got ${assetNames.length} asset names`);
 
   const addyToAssets: Record<string, { assetName: string; quantity: number }[]> = {};
-
+  const cpClient = new CounterpartyClient('http://api.counterparty.io:4000/api/', 'rpc', 'rpc');
   let offset = 0;
+
   while (true) {
     const chunkedAssetNames = chunk(assetNames, 750);
     const balances: Balance[] = [];
 
+    console.log('getting asset balances for assets', { chunkedAssetNames });
     for (const assetNames of chunkedAssetNames) {
       const balancesChunk = await cpClient.getBalances({
         filters: [
@@ -57,11 +59,13 @@ export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: Pr
     ]);
   }
 
+  console.log('creating addresses');
   await prisma.address.createMany({
     data: Object.keys(addyToAssets).map((address) => ({ address })),
     skipDuplicates: true,
   });
 
+  console.log('deleting old addressProjectDetails');
   await prisma.addressProjectDetails.deleteMany({ where: { projectSlug } });
 
   const sortedAddyToAssets = orderBy(
@@ -77,6 +81,7 @@ export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: Pr
     ['asc', 'desc', 'desc']
   );
 
+  console.log('updating project and creating addressProjectDetails');
   await Promise.all([
     prisma.project.update({
       data: { assetCount: assetNames.length },
@@ -94,4 +99,6 @@ export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: Pr
       })
       .catch((e) => console.error(e)),
   ]);
+
+  console.log(`done syncing ${projectSlug}`);
 };
