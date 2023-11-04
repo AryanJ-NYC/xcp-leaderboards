@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "clsx": "^1.2.1",
+    "counterparty-node-client": "^0.9.0",
+    "inngest": "^3.4.1",
     "lodash": "^4.17.21",
-    "next": "12.3.1",
+    "next": "^14.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0"

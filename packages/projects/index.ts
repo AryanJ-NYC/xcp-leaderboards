@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 export const getBitcornList = async (): Promise<PepeList> => {
   try {
     const pepesResponse = await fetch('https://bitcorns.com/api/cards');

@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { connect } from '@planetscale/database';
+import { PrismaClient } from '@prisma/client/edge';
+import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  const connectionString = process.env.DATABASE_URL;
+  const connection = connect({ url: connectionString });
+  const adapter = new PrismaPlanetScale(connection);
+  const prisma = new PrismaClient({ adapter });
+  return prisma;
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
