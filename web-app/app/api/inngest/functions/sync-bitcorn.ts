@@ -3,7 +3,7 @@ import { inngest } from '../inngest';
 import { sync } from '../sync';
 
 export const syncBitcorn = inngest.createFunction(
-  { id: 'sync-bitcorn' },
+  { id: 'sync-bitcorn', name: 'Sync Bitcorn' },
   { cron: '0 * * * *' }, //hourly
   async () => {
     await sync(getBitcornList, 'bitcorn');
