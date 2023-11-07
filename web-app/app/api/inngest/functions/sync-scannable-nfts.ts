@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { inngest } from '../inngest';
 import { sync } from '../sync';
-import { getScannableNfts } from '../../../../../packages/projects';
+import { getScannableNfts } from '../../../../lib/project-getters';
 
 export const syncScannables = inngest.createFunction(
   { id: 'sync-scannables', name: 'Sync Scannable NFTs' },

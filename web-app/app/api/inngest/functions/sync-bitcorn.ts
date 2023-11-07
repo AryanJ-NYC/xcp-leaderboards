@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { inngest } from '../inngest';
 import { sync } from '../sync';
-import { getBitcornList } from '../../../../../packages/projects';
+import { getBitcornList } from '../../../../lib/project-getters';
 
 export const syncBitcorn = inngest.createFunction(
   { id: 'sync-bitcorn', name: 'Sync Bitcorn' },

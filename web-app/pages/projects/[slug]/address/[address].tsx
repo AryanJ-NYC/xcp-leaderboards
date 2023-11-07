@@ -1,10 +1,10 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { getProjectAssets, ProjectName } from '@projects';
-import Link from 'next/link';
 import prisma from '../../../../../data';
+import { getProjectAssets, ProjectName } from '../../../../lib/project-getters';
 
 const Home: NextPage<Props> = ({ address, assetToImgUrl }) => {
   const router = useRouter();

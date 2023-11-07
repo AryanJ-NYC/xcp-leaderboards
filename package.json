@@ -22,8 +22,6 @@
   },
   "workspaces": [
     "data",
-    "netlify/functions",
-    "packages/*",
     "web-app"
   ]
 }

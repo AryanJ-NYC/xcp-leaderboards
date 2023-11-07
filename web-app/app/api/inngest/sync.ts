@@ -1,8 +1,8 @@
 import { Balance, CounterpartyClient } from 'counterparty-node-client';
 import chunk from 'lodash/chunk';
 import orderBy from 'lodash/orderBy';
+import type { PepeList, ProjectName } from '../../../lib/project-getters';
 import prisma from '../../../../data';
-import type { PepeList, ProjectName } from '../../../../packages/projects';
 
 export const sync = async (assetGetter: () => Promise<PepeList>, projectSlug: ProjectName) => {
   console.log('getting assetNames');

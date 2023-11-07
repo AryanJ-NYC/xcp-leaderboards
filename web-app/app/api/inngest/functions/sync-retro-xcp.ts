@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { inngest } from '../inngest';
 import { sync } from '../sync';
-import { getRetroXcp } from '../../../../../packages/projects';
+import { getRetroXcp } from '../../../../lib/project-getters';
 
 export const syncRetroXcp = inngest.createFunction(
   { id: 'sync-retro-xcp', name: 'Sync Retro XCP' },

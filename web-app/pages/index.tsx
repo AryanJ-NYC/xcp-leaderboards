@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import prisma from '../../data';
-import { getProjectAssets, ProjectName } from '../../packages/projects';
+import { getProjectAssets, ProjectName } from '../lib/project-getters';
 
 const Homepage: NextPage<Props> = ({ projects, setToImgurl }) => {
   return (
