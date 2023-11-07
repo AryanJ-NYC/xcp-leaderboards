@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "clsx": "^2.0.0",
-    "counterparty-node-client": "^0.10.0",
+    "counterparty-node-client": "^0.12.0",
     "inngest": "^3.4.1",
     "lodash": "^4.17.21",
     "next": "^14.0.1",
