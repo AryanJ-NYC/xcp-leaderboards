@@ -861,10 +861,10 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-counterparty-node-client@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/counterparty-node-client/-/counterparty-node-client-0.9.0.tgz#fc962196523d3966c84199ab99df71502b7db176"
-  integrity sha512-gXPeFaGQErHguEqMrCnT2CZIDH40Eb67oMSNS5I1FNIarY7NjArsdGiZRHChn7v332A172azN5tPFY4qtw38bA==
+counterparty-node-client@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/counterparty-node-client/-/counterparty-node-client-0.10.0.tgz#db4765560d15003c082096425a2f31264b744e49"
+  integrity sha512-bt+I9PdntKhY6I0ZsG8Xcz03fQ3SBN+7lvle/6FF2VJlrl0TJWLJiqaCq96Ymcghjr+Eq0IyGySLafkj4wr/Sg==
 
 create-require@^1.1.0:
   version "1.1.1"
